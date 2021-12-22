@@ -1,21 +1,10 @@
 import React, { useEffect } from 'react';
 import './Menu.css';
-import {
-  BiBarChartAlt2,
-  BiBookmark,
-  BiFolder,
-  BiGridAlt,
-  BiLayer,
-  BiLogOut,
-  BiMessageSquareDetail,
-  BiUser,
-} from 'react-icons/bi';
-
-export interface MenuProps {
-  label: string;
-  expanded: boolean;
-  activeLink: string;
-}
+import { BiLogOut } from 'react-icons/bi';
+import { MenuList, MenuProps } from '../../interfaces';
+import GroupMenu from '../GroupMenu';
+import { nanoid } from 'nanoid';
+import SingleMenu from '../SingleMenu';
 
 const Menu = (props: MenuProps) => {
   useEffect(() => {
@@ -74,12 +63,17 @@ const Menu = (props: MenuProps) => {
     };
 
     addListener();
-    return () => {};
+    return () => {
+      // intention
+    };
   }, []);
 
-  const activeLink = (needle: string, link: string): boolean => {
-    return needle === link;
+  const activeLink = (needle: MenuList, link: string): boolean => {
+    if (!needle.child || needle.child.length === 0) return needle.link === link;
+    const activeItem = needle.child.find((item) => item.link === link);
+    return !!activeItem;
   };
+
 
   return (
     <>
@@ -97,52 +91,30 @@ const Menu = (props: MenuProps) => {
       <br />
       <div className={`l-navbar ${props.expanded ? 'show' : ''}`} id="nav-bar">
         <nav className="nav">
-          <div>
-            <a href="#" className="nav_logo">
-              {' '}
-              <BiLayer className="nav_logo-icon"></BiLayer>{' '}
-              <span className="nav_logo-name">BBBootstrap</span>{' '}
-            </a>
+          <>
             <div className="nav_list">
-              <a
-                href="#"
-                className={`nav_link ${
-                  activeLink('first', props.activeLink) ? 'active' : ''
-                }`}
-              >
-                {' '}
-                <BiGridAlt className="nav-icon"></BiGridAlt>{' '}
-                <span className="nav_name">Dashboard</span>{' '}
-              </a>{' '}
-              <a href="#" className="nav_link">
-                {' '}
-                <BiUser className="nav-icon"></BiUser>{' '}
-                <span className="nav_name">Users</span>{' '}
-              </a>{' '}
-              <a href="#" className="nav_link">
-                {' '}
-                <BiMessageSquareDetail className="nav-icon"></BiMessageSquareDetail>{' '}
-                <span className="nav_name">Messages</span>
-              </a>{' '}
-              <a href="#" className="nav_link">
-                {' '}
-                <BiBookmark className="nav-icon"></BiBookmark>{' '}
-                <span className="nav_name">Bookmark</span>{' '}
-              </a>{' '}
-              <a href="#" className="nav_link">
-                {' '}
-                <BiFolder className="nav-icon"></BiFolder>{' '}
-                <span className="nav_name">Files</span>{' '}
-              </a>{' '}
-              <a href="#" className="nav_link">
-                <BiBarChartAlt2 className="nav-icon"></BiBarChartAlt2>{' '}
-                <span className="nav_name">Stats</span>{' '}
-              </a>
+              {props.menu &&
+                props.menu.length > 0 &&
+                props.menu.map((item, index) => (
+                  <div key={nanoid()}>
+                    {!item.child && (
+                      <SingleMenu
+                        item={item}
+                        isActive={activeLink(item, props.activeLink)}
+                        isHtml={props.html}
+                      />
+                    )}
+
+                    {item.child && item.child.length > 0 && (
+                      <GroupMenu activeLink={props.activeLink} menu={item} />
+                    )}
+                  </div>
+                ))}
             </div>
-          </div>
+          </>
           <a href="#" className="nav_link">
             {' '}
-            <BiLogOut className="nav-icon"></BiLogOut>{' '}
+            <BiLogOut className="nav-icon" />{' '}
             <span className="nav_name">SignOut</span>{' '}
           </a>
         </nav>

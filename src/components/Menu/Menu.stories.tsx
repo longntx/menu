@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Menu from './Menu';
+import { MenuList, MenuProps } from '../../interfaces';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -11,21 +12,86 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Menu> = (args) => <Menu {...args} />;
 
-export const Collapsed = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Collapsed.args = {
-  label: 'Hello world!',
+const Comp: FC<any> = (props): ReactElement => {
+  return <h1>{props.label}</h1>;
 };
 
-export const Expanded = Template.bind({});
-Expanded.args = {
-  ...Collapsed.args,
+const menuListNoChild: MenuList[] = [
+  {
+    label: 'Dashboard',
+    link: '/dashboard',
+  },
+  // {
+  //   label: 'Users',
+  //   link: '/users',
+  //   component: <Comp label={'ABED'}/>,
+  // },
+  {
+    label: 'Documents',
+    link: '/documents',
+  },
+];
+
+const menuListWithChild: MenuList[] = [
+  {
+    label: 'Dashboard',
+    link: '/dashboard',
+  },
+  {
+    label: 'Documents',
+    link: '/documents',
+    child: [
+      {
+        label: 'Documents 1',
+        link: '/document1',
+      },
+      {
+        label: 'Documents 2',
+        link: '/document2',
+      },
+    ],
+  },
+  {
+    label: 'Stats',
+    link: '/stats',
+    child: [
+      {
+        label: 'Stats 1',
+        link: '/stats1',
+      },
+      {
+        label: 'Stats 2',
+        link: '/stats2',
+      },
+    ],
+  },
+];
+
+const menuProps: MenuProps = {
   expanded: true,
+  activeLink: '/users',
+  html: true,
+  menu: [],
 };
 
-export const ActiveLink = Template.bind({});
-ActiveLink.args = {
-  ...Expanded.args,
-  expanded: true,
-  activeLink: 'first',
+export const DefaultMenu = Template.bind({});
+
+DefaultMenu.args = {
+  ...menuProps,
+  menu: menuListNoChild,
+};
+
+export const MenuWithChild = Template.bind({});
+
+MenuWithChild.args = {
+  ...menuProps,
+  menu: menuListWithChild,
+};
+
+export const MenuWithChildActive = Template.bind({});
+
+MenuWithChildActive.args = {
+  ...menuProps,
+  menu: menuListWithChild,
+  activeLink: '/document1',
 };

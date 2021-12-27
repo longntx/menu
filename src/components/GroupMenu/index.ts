@@ -1,1 +1,1 @@
-export { default } from "./GroupMenu";
+export { GroupMenuMeMo } from "./GroupMenu";

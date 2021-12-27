@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { MenuItem, MenuList } from '../../interfaces';
-import './GroupMenu.css';
+import './GroupMenu.scss';
 import { nanoid } from 'nanoid';
 import SingleMenu from '../SingleMenu';
 import { BiCaretRight } from 'react-icons/bi';
@@ -64,4 +64,5 @@ const GroupMenu = (props: { menu: MenuList; activeLink: string }) => {
   );
 };
 
-export default GroupMenu;
+export const GroupMenuMeMo = React.memo(GroupMenu);
+

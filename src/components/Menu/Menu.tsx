@@ -1,48 +1,21 @@
 import React, { useEffect } from 'react';
-import './Menu.css';
-import { BiLogOut } from 'react-icons/bi';
+import './Menu.scss';
 import { MenuList, MenuProps } from '../../interfaces';
-import GroupMenu from '../GroupMenu';
 import { nanoid } from 'nanoid';
 import SingleMenu from '../SingleMenu';
+import { GroupMenuMeMo } from '../GroupMenu/';
 
 const Menu = (props: MenuProps) => {
   useEffect(() => {
     const addListener = function () {
-      const showNavbar = (
-        toggleId: string,
-        navId: string,
-        bodyId: string,
-        headerId: string,
-      ) => {
-        const toggle = document.getElementById(toggleId),
-          nav = document.getElementById(navId),
-          bodypd = document.getElementById(bodyId),
-          headerpd = document.getElementById(headerId);
+      const showNavbar = (toggleId: string, navId: string) => {
+        const toggle = document.getElementById(toggleId);
+        const nav = document.getElementById(navId);
 
-        // Validate that all variables exist
-        // if (toggle && nav && bodypd && headerpd) {
-        //   toggle.addEventListener('click', () => {
-        //     // show navbar
-        //     nav.classList.toggle('show');
-        //     // change icon
-        //     toggle.classList.toggle('bx-x');
-        //     // add padding to body
-        //     bodypd.classList.toggle('body-pd');
-        //     // add padding to header
-        //     headerpd.classList.toggle('body-pd');
-        //   });
-        // }
         if (toggle && nav) {
           toggle.addEventListener('click', () => {
             // show navbar
             nav.classList.toggle('show');
-            // change icon
-            // toggle.classList.toggle('bx-x');
-            // add padding to body
-            // bodypd.classList.toggle('body-pd');
-            // add padding to header
-            // headerpd.classList.toggle('body-pd');
           });
         }
       };
@@ -73,7 +46,6 @@ const Menu = (props: MenuProps) => {
     const activeItem = needle.child.find((item) => item.link === link);
     return !!activeItem;
   };
-
 
   return (
     <>
@@ -106,17 +78,15 @@ const Menu = (props: MenuProps) => {
                     )}
 
                     {item.child && item.child.length > 0 && (
-                      <GroupMenu activeLink={props.activeLink} menu={item} />
+                      <GroupMenuMeMo
+                        activeLink={props.activeLink}
+                        menu={item}
+                      />
                     )}
                   </div>
                 ))}
             </div>
           </>
-          <a href="#" className="nav_link">
-            {' '}
-            <BiLogOut className="nav-icon" />{' '}
-            <span className="nav_name">SignOut</span>{' '}
-          </a>
         </nav>
       </div>
     </>

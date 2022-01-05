@@ -8,14 +8,15 @@ const SingleMenu = (props: {
 }) => {
   const { item, isActive, isHtml } = props;
   return (
-    <a onClick={() => {}} className={`${isActive ? 'mm-active' : ''}`}>
-      <>
-        {isHtml && item?.component}
-        {!item?.component && <span className="">{item?.label}</span>}
-      </>
-    </a>
+    <li className={`${isActive ? 'mm-active' : ''}`}>
+      <a onClick={() => {}}>
+        <>
+          {isHtml && item?.component}
+          {!item?.component && <span className="">{item?.label}</span>}
+        </>
+      </a>
+    </li>
   );
 };
 
 export const SingleMenuMeMo = React.memo(SingleMenu);
-

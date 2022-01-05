@@ -16,15 +16,18 @@ const GroupMenu = (props: {
   useEffect(() => {
     function clickListener() {
       if (toggleButton && toggleButton.current) {
-        toggleButton && toggleButton.current.classList.toggle('mm-active');
+        const hasChildActive = isActive(activeLink, menu?.child);
+        if (!hasChildActive)
+          toggleButton && toggleButton.current.classList.toggle('mm-active');
         toggleButton && toggleButton.current.classList.toggle('expanded');
         const subMenuList =
           document && document.querySelectorAll('.mm-active.expanded');
         if (subMenuList?.length > 0) {
           subMenuList.forEach((element) => {
+            const isActiveRoute = element.querySelector('li.mm-active');
             const idElement = element.getAttribute('id');
             if (id !== idElement) {
-              element.classList.remove('mm-active');
+              if (!isActiveRoute) element.classList.remove('mm-active');
               element.classList.remove('expanded');
             }
           });

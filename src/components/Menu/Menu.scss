@@ -52,7 +52,7 @@ a {
 
   .l-navbar {
     left: 0;
-    padding: 1rem 1rem 0 0;
+    padding: 1rem 0 0 0;
   }
 
   .show {
@@ -65,18 +65,18 @@ a {
 }
 
 .l-navbar:not(.show) {
-  & .metismenu {
+  & .l-menu {
     & ul {
       display: none;
     }
   }
 }
 
-.metismenu .mm-collapse:not(.mm-show) {
+.l-menu .mm-collapse:not(.mm-show) {
   display: none;
 }
 
-.metismenu .mm-collapsing {
+.l-menu .mm-collapsing {
   position: relative;
   height: 0;
   overflow: hidden;
@@ -85,11 +85,11 @@ a {
   transition-property: height, visibility;
 }
 
-.metismenu .has-arrow {
+.l-menu .has-arrow {
   position: relative;
 }
 
-.metismenu .has-arrow::after {
+.l-menu .has-arrow::after {
   position: absolute;
   content: '';
   width: 0.5em;
@@ -104,36 +104,37 @@ a {
   transition: all 0.3s ease-out;
 }
 
-*[dir='rtl'] .metismenu .has-arrow::after {
+*[dir='rtl'] .l-menu .has-arrow::after {
   transform: rotate(-135deg) translate(0, -50%);
 }
 
-.metismenu .mm-active > .has-arrow::after,
-.metismenu .has-arrow[aria-expanded='true']::after {
+.l-menu .mm-active > .has-arrow::after,
+.l-menu .has-arrow[aria-expanded='true']::after {
   transform: rotate(-45deg) translate(0, -50%);
 }
 
-.metismenu,
-.metismenu ul {
+.l-menu,
+.l-menu ul {
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-.metismenu a {
+.l-menu a {
   display: grid;
   grid-template-columns: max-content max-content;
   align-items: center;
   padding: 13px 15px;
   color: white;
   text-decoration: none;
+  overflow: hidden;
 }
 
-.metismenu ul a {
+.l-menu ul a {
   padding: 10px 15px 10px 30px;
 }
 
-ul.metismenu {
+ul.l-menu {
   & li {
     & > a.active {
       border-left: 3px solid #5369f8;
@@ -150,7 +151,7 @@ ul.metismenu {
   }
 }
 
-.metismenu {
+.l-menu {
   & li {
     & div.sub-menu {
       transition: max-height 0.15s, color 0.5s;

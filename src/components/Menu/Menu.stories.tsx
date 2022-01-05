@@ -93,5 +93,13 @@ export const MenuWithChildActive = Template.bind({});
 MenuWithChildActive.args = {
   ...menuProps,
   menu: menuListWithChild,
-  activeLink: '/document1',
+  activeLink: '/document2',
+};
+
+export const MenuWithActive = Template.bind({});
+
+MenuWithActive.args = {
+  ...menuProps,
+  menu: menuListWithChild,
+  activeLink: '/dashboard',
 };

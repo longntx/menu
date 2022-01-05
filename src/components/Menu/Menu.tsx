@@ -63,7 +63,7 @@ const Menu = (props: MenuProps) => {
       </div>
       <br />
       <div className={`l-navbar ${props.expanded ? 'show' : ''}`} id="nav-bar">
-        <ul className="metismenu">
+        <ul className="l-menu">
           {props.menu &&
             props.menu.length > 0 &&
             props.menu.map((item, index) => (

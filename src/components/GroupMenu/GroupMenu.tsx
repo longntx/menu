@@ -2,18 +2,33 @@ import React, { useEffect, useRef } from 'react';
 import { MenuItem, MenuList } from '../../interfaces';
 import './GroupMenu.scss';
 import { nanoid } from 'nanoid';
-import SingleMenu from '../SingleMenu';
 import { BiCaretRight } from 'react-icons/bi';
+import { SingleMenu } from '../index';
 
-const GroupMenu = (props: { menu: MenuList; activeLink: string }) => {
-  const { menu, activeLink } = props;
+const GroupMenu = (props: {
+  menu?: MenuList;
+  activeLink?: string;
+  id: string;
+}) => {
+  const { menu, activeLink, id } = props;
   const toggleButton = useRef('');
 
   useEffect(() => {
     function clickListener() {
       if (toggleButton && toggleButton.current) {
-        // @ts-ignore
-        toggleButton && toggleButton.current.classList.toggle('open');
+        toggleButton && toggleButton.current.classList.toggle('mm-active');
+        toggleButton && toggleButton.current.classList.toggle('expanded');
+        const subMenuList =
+          document && document.querySelectorAll('.mm-active.expanded');
+        if (subMenuList?.length > 0) {
+          subMenuList.forEach((element) => {
+            const idElement = element.getAttribute('id');
+            if (id !== idElement) {
+              element.classList.remove('mm-active');
+              element.classList.remove('expanded');
+            }
+          });
+        }
       }
     }
     if (toggleButton && toggleButton.current) {
@@ -26,43 +41,40 @@ const GroupMenu = (props: { menu: MenuList; activeLink: string }) => {
     };
   }, []);
 
-  const isActive = (activeURL: string, listLink: MenuItem[] | undefined) => {
+  const isActive = (
+    activeURL: string | undefined,
+    listLink: MenuItem[] | undefined,
+  ) => {
     const activeItem = listLink?.find((item) => item.link === activeURL);
     return activeItem !== undefined;
   };
 
   return (
     <>
-      <div
-        // @ts-ignore
+      <li
         ref={toggleButton}
-        className={`nav_links ${
-          isActive(activeLink, menu?.child) ? 'open' : ''
+        id={id}
+        className={`${
+          isActive(activeLink, menu?.child) ? 'mm-active expanded' : ''
         }`}
       >
-        <div
-          className={`nav_links--title ${
-            isActive(activeLink, menu?.child) ? 'active' : ''
-          }`}
-        >
-          <span>{menu.label}</span>
-          <BiCaretRight className="nav-icon" />
+        <a onClick={() => {}}>{menu?.label}</a>
+        <div className="sub-menu">
+          <ul>
+            {menu?.child &&
+              menu.child.map((item: MenuItem) => (
+                <SingleMenu
+                  key={nanoid()}
+                  item={item}
+                  isActive={item.link === activeLink}
+                  isHtml={item.component !== undefined}
+                />
+              ))}
+          </ul>
         </div>
-        <div className="nav_links__items">
-          {menu.child &&
-            menu.child.map((item: MenuItem) => (
-              <SingleMenu
-                key={nanoid()}
-                item={item}
-                isActive={item.link === activeLink}
-                isHtml={item.component !== undefined}
-              />
-            ))}
-        </div>
-      </div>
+      </li>
     </>
   );
 };
 
 export const GroupMenuMeMo = React.memo(GroupMenu);
-

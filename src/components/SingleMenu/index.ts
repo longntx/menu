@@ -1,1 +1,1 @@
-export { default } from "./SingleMenu";
+export { SingleMenuMeMo } from "./SingleMenu";
